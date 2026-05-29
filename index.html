@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DinoExplorer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Montserrat', sans-serif;
+        background: #050805;
+        color: white;
+        overflow-x: hidden;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      header {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 40px 20px;
+        background: linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.88)),
+          url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1800&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+      }
+
+      .hero {
+        width: 100%;
+        max-width: 1000px;
+      }
+
+      .hero h1 {
+        font-size: clamp(42px, 8vw, 90px);
+        font-weight: 800;
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(132, 204, 22, 0.5);
+        line-height: 1.1;
+        word-break: break-word;
+      }
+
+      .hero span {
+        color: #84cc16;
+      }
+
+      .hero p {
+        font-size: clamp(16px, 2.5vw, 24px);
+        line-height: 1.8;
+        margin-bottom: 35px;
+        color: #d1fae5;
+      }
+
+      .hero button {
+        padding: 16px 32px;
+        border: none;
+        border-radius: 15px;
+        background: #65a30d;
+        color: white;
+        font-size: clamp(16px, 2vw, 20px);
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+        width: auto;
+        max-width: 100%;
+      }
+
+      .hero button:hover {
+        background: #84cc16;
+        transform: scale(1.05);
+      }
+
+      .section {
+        padding: 70px 5%;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: clamp(32px, 6vw, 55px);
+        margin-bottom: 20px;
+        color: #bef264;
+        line-height: 1.2;
+      }
+
+      .section-text {
+        text-align: center;
+        max-width: 900px;
+        margin: auto;
+        line-height: 1.8;
+        font-size: clamp(16px, 2.5vw, 20px);
+        margin-bottom: 50px;
+        color: #d1d5db;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 25px;
+      }
+
+      .card {
+        background: #112018;
+        padding: 25px;
+        border-radius: 25px;
+        transition: 0.3s;
+        width: 100%;
+      }
+
+      .card:hover {
+        transform: translateY(-8px);
+        background: #16271d;
+      }
+
+      .card h3 {
+        margin-bottom: 15px;
+        font-size: clamp(22px, 3vw, 28px);
+        color: #a3e635;
+      }
+
+      .card p {
+        line-height: 1.8;
+        color: #d1d5db;
+        font-size: 16px;
+      }
+
+      .search-box {
+        background: #112018;
+        padding: 30px;
+        border-radius: 25px;
+        max-width: 1200px;
+        margin: auto;
+        width: 100%;
+      }
+
+      .search-box input {
+        width: 100%;
+        padding: 18px;
+        border: none;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        background: #08120d;
+        color: white;
+        font-size: clamp(16px, 2vw, 20px);
+        outline: none;
+      }
+
+      .search-box button {
+        width: 100%;
+        padding: 18px;
+        border: none;
+        border-radius: 15px;
+        background: #65a30d;
+        color: white;
+        font-size: clamp(16px, 2vw, 20px);
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .search-box button:hover {
+        background: #84cc16;
+      }
+
+      .resultado {
+        display: none;
+        margin-top: 40px;
+        background: #08120d;
+        padding: 35px;
+        border-radius: 25px;
+        overflow-wrap: break-word;
+        text-align: left;
+      }
+
+      .resultado h2 {
+        font-size: clamp(28px, 5vw, 45px);
+        margin-bottom: 20px;
+        color: #bef264;
+        line-height: 1.2;
+      }
+
+      .resultado p {
+        line-height: 1.9;
+        margin-bottom: 20px;
+        color: #d1d5db;
+        font-size: clamp(15px, 2vw, 18px);
+      }
+
+      .highlight {
+        background: #13240f;
+        padding: 20px;
+        border-left: 5px solid #84cc16;
+        border-radius: 15px;
+        font-size: clamp(18px, 2.5vw, 22px);
+        font-weight: 700;
+        margin: 30px 0;
+        color: #d9f99d;
+        line-height: 1.6;
+      }
+
+      /* --- ESTILOS DO QUIZ --- */
+      .quiz-container {
+        background: #112018;
+        padding: 30px;
+        border-radius: 25px;
+        max-width: 800px;
+        margin: auto;
+        width: 100%;
+        text-align: left;
+      }
+
+      .quiz-pergunta {
+        font-size: clamp(18px, 2.5vw, 24px);
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: #bef264;
+        line-height: 1.4;
+      }
+
+      .quiz-opcoes {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .quiz-btn {
+        width: 100%;
+        padding: 16px 20px;
+        background: #08120d;
+        color: white;
+        border: 2px solid #1f3a2b;
+        border-radius: 15px;
+        font-size: clamp(15px, 2vw, 18px);
+        font-family: 'Montserrat', sans-serif;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .quiz-btn:hover:not(:disabled) {
+        background: #13240f;
+        border-color: #65a30d;
+      }
+
+      .quiz-btn.correto {
+        background: #166534 !important;
+        border-color: #22c55e !important;
+      }
+
+      .quiz-btn.errado {
+        background: #991b1b !important;
+        border-color: #ef4444 !important;
+      }
+
+      .quiz-feedback {
+        margin-top: 20px;
+        font-weight: 700;
+        font-size: 18px;
+        min-height: 27px;
+      }
+
+      .quiz-proximo-btn {
+        margin-top: 20px;
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 15px;
+        background: #65a30d;
+        color: white;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        display: none;
+        transition: 0.3s;
+      }
+
+      .quiz-proximo-btn:hover {
+        background: #84cc16;
+      }
+
+      footer {
+        padding: 35px 20px;
+        text-align: center;
+        background: #020403;
+        color: #94a3b8;
+        font-size: clamp(14px, 2vw, 18px);
+      }
+
+      /* TABLETS (Telas até 768px) */
+      @media (max-width: 768px) {
+        .section {
+          padding: 50px 24px;
+        }
+        .section-text {
+          margin-bottom: 35px;
+        }
+        .search-box {
+          padding: 24px;
+        }
+        .card {
+          padding: 22px;
+        }
+        .resultado {
+          padding: 25px;
+        }
+        .quiz-container {
+          padding: 24px;
+        }
+      }
+
+      /* CELULARES (Telas até 480px) */
+      @media (max-width: 480px) {
+        header {
+          padding: 40px 16px;
+        }
+        .hero h1 {
+          word-break: keep-all;
+          letter-spacing: -1px;
+          line-height: 1.2;
+        }
+        .hero p {
+          line-height: 1.6;
+          margin-bottom: 25px;
+        }
+        .hero button {
+          width: 100%;
+        }
+        .cards {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .card {
+          padding: 20px;
+          text-align: left;
+        }
+        .search-box {
+          padding: 20px;
+        }
+        .search-box input,
+        .search-box button {
+          padding: 16px;
+        }
+        .resultado {
+          padding: 20px 16px;
+          text-align: left;
+          width: 100%;
+        }
+        .resultado h2 {
+          text-align: left;
+          margin-top: 25px;
+          font-size: clamp(24px, 5vw, 32px);
+        }
+        .resultado p {
+          line-height: 1.6;
+          text-align: left;
+          font-size: 15px;
+          width: 100%;
+          word-break: normal;
+        }
+        .highlight {
+          padding: 16px;
+          margin: 20px 0;
+          font-size: 18px;
+          text-align: left;
+        }
+        .quiz-container {
+          padding: 20px 16px;
+        }
+        .quiz-btn {
+          padding: 14px 16px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="hero">
+        <h1>Dino<span>Explorer</span></h1>
+        <p>
+          Explore os gigantes do passado com biografias extensas, curiosidades
+          impressionantes e informações detalhadas sobre os dinossauros mais
+          famosos da Terra.
+        </p>
+        <button
+          onclick="document.getElementById('pesquisa').scrollIntoView({behavior:'smooth'})"
+        >
+          Explorar Agora
+        </button>
+      </div>
+    </header>
+
+    <section class="section">
+      <h2 class="section-title">Curiosidades Impressionantes</h2>
+      <p class="section-text">
+        Descubra fatos científicos incríveis sobre os dinossauros.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>🦖 Dinossauros Brasileiros</h3>
+          <p>
+            O Brasil possui importantes espécies como Irritator challengeri,
+            Uberabatitan ribeiroi e Staurikosaurus pricei.
+          </p>
+        </div>
+        <div class="card">
+          <h3>🌎 Extinção</h3>
+          <p>
+            A maioria dos dinossauros desapareceu após o impacto de um enorme
+            asteroide há 66 milhões de anos.
+          </p>
+        </div>
+        <div class="card">
+          <h3>🐦 Aves Modernas</h3>
+          <p>As aves atuais descendem diretamente dos dinossauros terópodes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pesquisa">
+      <h2 class="section-title">Pesquisar Dinossauro</h2>
+      <p class="section-text">
+        Selecione um dinossauro da lista ou digite o nome para ver a biografia
+        completa.
+      </p>
+
+      <div class="search-box">
+        <p
+          style="
+            color: #a3e635;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+          "
+        >
+          📋 Selecione um Dinossauro da Lista:
+        </p>
+        <div
+          style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px"
+        >
+          <button
+            onclick="pesquisaRapida('trex')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Tiranossauro Rex
+          </button>
+          <button
+            onclick="pesquisaRapida('velociraptor')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Velociraptor
+          </button>
+          <button
+            onclick="pesquisaRapida('triceratops')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Triceratops
+          </button>
+          <button
+            onclick="pesquisaRapida('spinosaurus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Spinosaurus
+          </button>
+          <button
+            onclick="pesquisaRapida('irritator')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Irritator (Brasil)
+          </button>
+          <button
+            onclick="pesquisaRapida('ankylosaurus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Ankylosaurus
+          </button>
+          <button
+            onclick="pesquisaRapida('stegosaurus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Stegosaurus
+          </button>
+          <button
+            onclick="pesquisaRapida('carnotaurus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Carnotaurus
+          </button>
+          <button
+            onclick="pesquisaRapida('giganotosaurus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Giganotosaurus
+          </button>
+          <button
+            onclick="pesquisaRapida('uberabatitan')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Uberabatitan (Brasil)
+          </button>
+          <button
+            onclick="pesquisaRapida('staurikosaurus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Staurikosaurus (Brasil)
+          </button>
+          <button
+            onclick="pesquisaRapida('mosasaurus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Mosasaurus
+          </button>
+          <button
+            onclick="pesquisaRapida('therizinosaurus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Therizinosaurus
+          </button>
+          <button
+            onclick="pesquisaRapida('parasaurolophus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Parasaurolophus
+          </button>
+          <button
+            onclick="pesquisaRapida('argentinosaurus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Argentinosaurus
+          </button>
+          <button
+            onclick="pesquisaRapida('pterodactilo')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Pterodáctilo
+          </button>
+          <button
+            onclick="pesquisaRapida('brachiosaurus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Brachiosaurus
+          </button>
+          <button
+            onclick="pesquisaRapida('dilophosaurus')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Dilophosaurus
+          </button>
+          <button
+            onclick="pesquisaRapida('troodon')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Troodon
+          </button>
+          <button
+            onclick="pesquisaRapida('aquilops')"
+            style="
+              width: auto;
+              padding: 8px 14px;
+              font-size: 14px;
+              background: #08120d;
+              border: 1px solid #1f3a2b;
+              border-radius: 10px;
+              cursor: pointer;
+              color: #bef264;
+              transition: 0.2s;
+            "
+          >
+            Aquilops
+          </button>
+        </div>
+
+        <input
+          id="dinoInput"
+          type="text"
+          placeholder="Ou digite o nome aqui... Ex: trex, spinosaurus"
+          onkeydown="if(event.key === 'Enter') buscarDino()"
+        />
+        <button onclick="buscarDino()">Buscar Dinossauro</button>
+        <div id="resultado" class="resultado"></div>
+      </div>
+    </section>
+
+    <section class="section" id="quizSection">
+      <h2 class="section-title">DinoQuiz</h2>
+      <p class="section-text">
+        Teste os seus conhecimentos sobre o mundo pré-histórico!
+      </p>
+
+      <div class="quiz-container">
+        <div id="quizJanela">
+          <div class="quiz-pergunta" id="quizPergunta">
+            Carregando pergunta...
+          </div>
+          <div class="quiz-opcoes" id="quizOpcoes"></div>
+          <div class="quiz-feedback" id="quizFeedback"></div>
+          <button
+            class="quiz-proximo-btn"
+            id="quizProximoBtn"
+            onclick="proximaPergunta()"
+          >
+            Próxima Pergunta
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <footer>DinoExplorer © 2026 — Explore os gigantes da pré-história</footer>
+
+    <script>
+      const dinos = {
+        trex: {
+          nome: 'Tiranossauro Rex',
+          cientifico: 'Tyrannosaurus Rex',
+          clado: 'Theropoda',
+          local: 'América do Norte (Estados Unidos e Canadá)',
+          impactante:
+            'O T-Rex possuía uma das mordidas mais poderosas de toda a história do reino animal.',
+          bio: 'O Tyrannosaurus rex foi um gigantesco dinossauro carnívoro bípede que viveu há aproximadamente 68 a 66 milhões de anos, durante o final do período Cretáceo Superior. Sendo um dos maiores predadores terrestres que já caminharam sobre a Terra, ele podia ultrapassar os 12 metros de comprimento, 4 metros de altura e pesar mais de 9 toneladas. Sua cabeça maciça era equilibrada por uma cauda longa e pesada. Seus braços, embora extremamente pequenos e com apenas dois dedos funcionais, possuíam músculos muito fortes. Ele dominava os ecossistemas norte-americanos como o predador de topo da cadeia alimentar.',
+          curiosidades:
+            '• Mordida Esmagadora: Sua mandíbula exercia uma força de pressão absurda, capaz de quebrar ossos com facilidade e estraçalhar armaduras naturais de outros dinossauros.<br><br>• Visão de Águia: Ao contrário do mito dos filmes, o T-Rex possuía uma excelente visão binocular e um olfato superdesenvolvido, tornando impossível se esconder dele apenas ficando parado.<br><br>• Substituição de Dentes: Seus dentes podiam chegar ao tamanho de bananas e, caso um quebrasse em uma caça, um novo nascia no mesmo lugar ao longo de sua vida.',
+        },
+        velociraptor: {
+          nome: 'Velociraptor',
+          cientifico: 'Velociraptor Mongoliensis',
+          clado: 'Dromaeosauridae',
+          local: 'Mongólia e China (Deserto de Gobi)',
+          impactante:
+            'O Velociraptor possuía penas complexas semelhantes às das aves modernas cobrindo todo o seu corpo.',
+          bio: 'O Velociraptor foi um pequeno dinossauro carnívoro extremamente ágil que viveu há cerca de 75 a 71 milhões de anos. Bem diferente do tamanho exagerado mostrado no cinema, o verdadeiro Velociraptor era relativamente pequeno, medindo cerca de 2 metros de comprimento e pesando em torno de 15 a 20 quilos. A descoberta de pontos de inserção de penas em seus fósseis provou que ele era inteiramente penugento, embora seus braços curtos não permitissem o voo. Ele usava sua velocidade e garras afiadas para caçar pequenos lagartos, mamíferos e dinossauros herbívoros menores.',
+          curiosidades:
+            '• A Garra em Foice: Possuía uma enorme garra curva e retrátil em cada pé, usada para imobilizar e perfurar pontos vitais de suas presas durante o ataque.<br><br>• Fóssil de Batalha: Um dos achados mais famosos do mundo mostra um Velociraptor e um Protoceratops fossilizados exatamente no meio de um combate mortal, soterrados por uma duna de areia.<br><br>• Visão Noturna: Análises de sua estrutura ocular indicam que ele tinha hábitos predominantemente noturnos para evitar o calor escaldante do deserto.',
+        },
+        triceratops: {
+          nome: 'Triceratops',
+          cientifico: 'Triceratops Horridus',
+          clado: 'Ceratopsia',
+          local: 'América do Norte (Estados Unidos e Canadá)',
+          impactante:
+            'Seu enorme crânio podia ultrapassar 2 metros de comprimento, representando um terço do tamanho do animal.',
+          bio: 'O Triceratops foi um gigantesco dinossauro herbívoro quadrúpede que viveu no final do período Cretáceo, há aproximadamente 66 milhões de anos. Podia atingir 9 metros de comprimento e pesar até 12 toneladas. Seu nome significa "rosto com três chifres", em referência aos dois chifres longos acima dos olhos e ao menor localizado no focinho. Ele possuía um escudo ou gola óssea maciça na parte traseira da cabeça que servia tanto para proteger seu pescoço sensível quanto para exibições e rituais de acasalamento.',
+          curiosidades:
+            '• Defesa Contra Gigantes: Sendo o prato principal do T-Rex, o Triceratops usava seus chifres resistentes e escudos para travar batalhas violentas contra predadores e defender seus bandos.<br><br>• Bateria de Dentes: Possuía centenas de dentes organizados em fileiras fechadas nas bochechas, que funcionavam como tesouras para triturar as plantas mais duras da época.<br><br>• Vida em Grupo: Fósseis indicam que eles viviam e se deslocavam em grandes manadas para garantir a proteção dos filhotes contra ameaças.',
+        },
+        spinosaurus: {
+          nome: 'Spinosaurus',
+          cientifico: 'Spinosaurus Aegyptiacus',
+          clado: 'Spinosauridae',
+          local: 'Norte da África (Egito e Marrocos)',
+          impactante:
+            'Pode ter sido o maior predador terrestre da história e era adaptado para nadar e viver na água.',
+          bio: 'O Spinosaurus foi um gigantesco dinossauro carnívoro que viveu há aproximadamente 95 milhões de anos. Seu comprimento podia passar dos 14 metros, superando o T-Rex. Ele pertencia ao clado Spinosauridae e se destacava por possuir uma enorme vela dorsal sustentada por espinhos ósseos longos nas costas. Seus dentes cônicos e focinho alongado lembravam muito os crocodilos modernos, indicando uma perfeita adaptação para capturar grandes animais aquáticos nos rios do antigo Egito.',
+          curiosidades:
+            '• Alimentação Piscívora: Alimentava-se principalmente de peixes gigantes da época, como celacantos e peixes-serra pré-históricos que habitavam os sistemas fluviais africanos.<br><br>• Função da Vela: Cientistas acreditam que sua famosa vela dorsal servia para exibição visual entre a espécie ou para regulação térmica de seu imenso corpo.<br><br>• Ossos Densos: Suas pernas curtas e ossos altamente densos ajudavam no controle de flutuabilidade, permitindo que ele nadasse com extrema facilidade.',
+        },
+        irritator: {
+          nome: 'Irritator',
+          cientifico: 'Irritator Challengeri',
+          clado: 'Spinosauridae',
+          local: 'Brasil (Bacia do Araripe, Ceará)',
+          impactante:
+            'Foi um dos dinossauros brasileiros mais importantes já descobertos, pertencente ao grupo dos espinossaurídeos.',
+          bio: 'O Irritator challengeri viveu durante o período Cretáceo inferior no Nordeste do Brasil. Sendo um parente próximo do Spinosaurus, ele possuía um focinho longo e estreito cravejado de dentes cônicos, ideal para uma dieta baseada em peixes. Estima-se que ele media cerca de 7 metros de comprimento e pesava 1 tonelada. O ambiente onde vivia na antiga Bacia do Araripe era repleto de lagos e rios propícios para o seu estilo de vida pescador.',
+          curiosidades:
+            '• Fóssil Adulterado: Seu nome surgiu porque os cientistas ficaram irritados ao descobrir que o fóssil havia sido modificado e adulterado ilegalmente por contrabandistas antes de chegar aos laboratórios.<br><br>• Ataque a Pterossauros: Um fóssil de pterossauro encontrado na mesma região continha um dente de Irritator quebrado e cravado em sua espinha, provando que ele também caçava répteis voadores.<br><br>• Homenagem Literária: O nome *Challengeri* homenageia o fictício Professor Challenger, personagem do livro "O Mundo Perdido" de Arthur Conan Doyle.',
+        },
+        ankylosaurus: {
+          nome: 'Ankylosaurus',
+          cientifico: 'Ankylosaurus Magniventris',
+          clado: 'Ankylosauria',
+          local: 'América do Norte (Estados Unidos e Canadá)',
+          impactante:
+            'Possuía uma armadura natural extremamente resistente e uma cauda que funcionava como um martelo.',
+          bio: 'O Ankylosaurus foi um enorme dinossauro herbívoro blindado que viveu no final do período Cretáceo, habitando o mesmo ambiente que o temido T-Rex. Seu corpo largo e robusto era totalmente coberto por placas ósseas espessas e calosidades cravadas diretamente em sua pele, agindo como um escudo impenetrável. Lento e pesado, sua melhor estratégia contra predadores era deitar-se no chão para esconder sua única parte desprotegida: a barriga.',
+          curiosidades:
+            '• O Martelo da Cauda: Sua cauda terminava em uma imensa clava de osso sólido, capaz de desferir golpes avassaladores capazes de fraturar as pernas ou mandíbulas de qualquer carnívoro.<br><br>• Pálpebras Blindadas: Até mesmo seus olhos recebiam proteção, com pequenas placas ósseas modificadas que agiam como pálpebras blindadas contra impactos.<br><br>• Focinho Largo: Seu focinho largo indica que ele era um pastador não seletivo, mastigando grandes quantidades de samambaias e arbustos rasteiros.',
+        },
+        stegosaurus: {
+          nome: 'Stegosaurus',
+          cientifico: 'Stegosaurus Stenops',
+          clado: 'Stegosauria',
+          local: 'Estados Unidos (Formação Morrison)',
+          impactante:
+            'Apesar do seu grande tamanho, seu cérebro era incrivelmente pequeno em comparação ao corpo.',
+          bio: 'O Stegosaurus foi um grande dinossauro herbívoro quadrúpede que viveu durante o final do período Jurássico, há cerca de 150 milhões de anos. Ele é facilmente reconhecido no mundo inteiro por suas duas fileiras de enormes placas ósseas triangulares dispostas ao longo de suas costas arqueadas. Possuía braços dianteiros curtos e pernas traseiras longas, mantendo sua cabeça sempre voltada para o solo, próxima à vegetação baixa da qual se alimentava.',
+          curiosidades:
+            '• Cérebro de Noz: Seu cérebro tinha o tamanho aproximado de uma noz, pesando apenas 80 gramas em um corpo de 5 toneladas, o que demonstra uma anatomia cerebral muito primitiva.<br><br>• Espinhos da Cauda: Sua cauda era equipada com quatro espinhos afiados de quase 1 metro, usados com força lateral para perfurar e afastar predadores como o Allosaurus.<br><br>• Regulação Térmica: Suas placas dorsais possuíam canais de vasos sanguíneos, sugerindo que ajudavam a absorver ou liberar calor para controlar a temperatura.',
+        },
+        carnotaurus: {
+          nome: 'Carnotaurus',
+          cientifico: 'Carnotaurus Sastrei',
+          clado: 'Abelisauridae',
+          local: 'Argentina (Patagônia)',
+          impactante:
+            'O Carnotaurus possuía pequenos chifres acima dos olhos e era um predador extremamente veloz.',
+          bio: 'O Carnotaurus foi um dinossauro carnívoro de porte médio a grande que habitou a América do Sul durante o final do período Cretáceo. Seu nome significa "touro carnívoro" devido ao par de chifres ósseos e grossos na sua testa. Ele possuía pernas traseiras muito longas e musculosas, braços minúsculos (ainda menores que os do T-Rex) e um crânio curto com mandíbulas desenhadas para desferir ataques rápidos.',
+          curiosidades:
+            '• Velocista de Peso: Graças à musculatura potente de sua cauda e pernas, ele é considerado um dos grandes terópodes mais velozes que já existiram, caçando presas ágeis.<br><br>• Impressão de Pele: É um dos raros dinossauros cujo fóssil preservou impressões nítidas de sua pele escamosa, revelando que ele não possuía penas, mas sim fileiras de nódulos ósseos.<br><br>• Mordida Rápida: Sua mandíbula não esmagava ossos, mas batia como um machado veloz, cortando os tecidos da presa de forma cirúrgica.',
+        },
+        giganotosaurus: {
+          nome: 'Giganotosaurus',
+          cientifico: 'Giganotosaurus Carolinii',
+          clado: 'Carcharodontosauridae',
+          local: 'Argentina (Região da Patagônia)',
+          impactante:
+            'Foi um dos maiores predadores terrestres da história, superando muitos carnívoros em tamanho.',
+          bio: 'O Giganotosaurus carolinii viveu há aproximadamente 98 milhões de anos na América do Sul. Ele rivalizava diretamente em proporções com o Tyrannosaurus rex, atingindo comprimentos de até 13 metros e pesando mais de 8 toneladas. Dominava amplamente os ecossistemas da Patagônia argentina através de um crânio imenso equipado com dentes serrilhados altamente eficientes para cortar carne.',
+          curiosidades:
+            '• Caçador de Gigantes: Paleontólogos suspeitam que o Giganotosaurus caçava em bandos organizados para conseguir abater os gigantescos saurópodes herbívoros de sua época.<br><br>• Dentes de Tubarão: Ele pertencia ao clado Carcharodontosauridae, cujo nome significa "lagartos com dentes de tubarão", devido ao formato fatiador de sua dentição.<br><br>• Descoberta por Amador: Seu esqueleto fóssil quase completo foi descoberto em 1993 por Rubén Carolini, um mecânico apaixonado por paleontologia.',
+        },
+        uberabatitan: {
+          nome: 'Uberabatitan',
+          cientifico: 'Uberabatitan Ribeiroi',
+          clado: 'Titanosauria',
+          local: 'Brasil (Uberaba, Minas Gerais)',
+          impactante:
+            'Foi um dos maiores dinossauros pescoçudos do território brasileiro já descobertos pela ciência.',
+          bio: 'O Uberabatitan ribeiroi foi um colossal dinossauro herbívoro pertencente ao clado Titanosauria que viveu há cerca de 70 milhões de anos no final do período Cretáceo. Seus fósseis foram localizados durante escavações em Minas Gerais e revelaram um animal que podia passar dos 20 metros de comprimento. Possuía o clássico corpo dos saurópodes: um pescoço longo para alcançar folhas altas e uma cauda comprida para equilíbrio.',
+          curiosidades:
+            '• O Gigante Mineiro: A descoberta de seus ossos massivos em Uberaba ajudou a consolidar a região como um dos maiores e mais ricos berços da paleontologia no Brasil.<br><br>• Toneladas de Vegetação: Devido ao seu tamanho imenso, estima-se que o Uberabatitan passava a maior parte do dia comendo centenas de quilos de folhas para manter sua energia.<br><br>• Ambiente Antigo: Ele conviveu em um ecossistema brasileiro habitado por crocodilomorfos pré-históricos e pequenos terópodes carnívoros.',
+        },
+        staurikosaurus: {
+          nome: 'Staurikosaurus',
+          cientifico: 'Staurikosaurus Pricei',
+          clado: 'Herrerasauridae',
+          local: 'Brasil (Santa Maria, Rio Grande do Sul)',
+          impactante:
+            'Foi um dos primeiros dinossauros a caminhar na Terra e um dos primeiros descobertos no Brasil.',
+          bio: 'O Staurikosaurus pricei é um dinossauro primitivo fascinante que viveu há cerca de 225 milhões de anos durante o período Triássico, época em que todos os continentes ainda estavam unidos na Pangeia. Sendo um carnívoro bípede de pequeno porte, media por volta de 2 metros de comprimento e pesava apenas 30 quilos. Seu corpo esguio e leve era perfeitamente desenhado para correr em alta velocidade e capturar presas pequenas.',
+          curiosidades:
+            '• Relíquia Planetária: Ele está listado entre os dinossauros mais antigos do planeta Terra, ajudando a entender a própria origem evolutiva desses animais.<br><br>• Constelação no Nome: Seu nome significa "Lagarto do Cruzeiro do Sul", uma bela homenagem à constelação astronômica que só pode ser vista com clareza no hemisfério sul.<br><br>• Dentes Recurvados: Possuía mandíbulas finas com dentes pontiagudos curvados para trás, o que impedia que suas presas escapassem após serem capturadas.',
+        },
+        mosasaurus: {
+          nome: 'Mosasaurus',
+          cientifico: 'Mosasaurus Hoffmannii',
+          clado: 'Mosasauridae',
+          local: 'Oceanos Antigos (Europa e América do Norte)',
+          impactante:
+            'Foi um gigantesco predador marinho pré-histórico que governava os mares no final do Cretáceo.',
+          bio: 'O Mosasaurus não era tecnicamente um dinossauro verdadeiro, mas sim um réptil marinho colossal que viveu ao lado deles há 66 milhões de anos. Podia atingir incríveis 15 metros de comprimento, exibindo um corpo perfeitamente hidrodinâmico com quatro nadadeiras musculosas e uma cauda poderosa semelhante à de um tubarão. Ele ocupava o topo absoluto da cadeia alimentar nos oceanos primitivos.',
+          curiosidades:
+            '• Primos dos Lagartos: Evolutivamente, o Mosasaurus é um parente distante dos lagartos-monitores e das cobras modernas, tendo retornado ao mar para evoluir.<br><br>• Dupla Fileira de Dentes: Além dos dentes principais na mandíbula, possuía uma segunda fileira de dentes no céu da boca para prender animais inteiros na garganta.<br><br>• Dieta Implacável: Ele atacava absolutamente tudo o que se movia na água: peixes grandes, tartarugas marinhas, amonites e até mesmo outros mosassauros menores.',
+        },
+        therizinosaurus: {
+          nome: 'Therizinosaurus',
+          cientifico: 'Therizinosaurus Cheloniformis',
+          clado: 'Therizinosauridae',
+          local: 'Mongólia (Deserto de Gobi)',
+          impactante:
+            'Possuía algumas das maiores garras já registradas na história do reino animal.',
+          bio: 'O Therizinosaurus foi um dinossauro bípede muito peculiar que viveu no final do período Cretáceo na Ásia. Ele quebrava todos os padrões visuais conhecidos: apesar de pertencer ao grupo dos terópodes (composto majoritariamente por carnívoros), ele era um herbívoro calmo. Media cerca de 10 metros de comprimento e ostentava um corpo robusto, pescoço longo, cabeça pequena e braços fortes equipados com garras colossais.',
+          curiosidades:
+            '• Garras de Um Metro: Suas garras em forma de foice podiam ultrapassar 1 metro de comprimento. Elas eram usadas para puxar galhos altos de árvores e para defesa própria.<br><br>• Corpo de Penas: Evidências fósseis do seu clado sugerem fortemente que seu corpo gigante era coberto por uma densa camada de penas primitivas para proteção térmica.<br><br>• Confundido com Tartaruga: Quando seus primeiros ossos foram achados na Mongólia, os cientistas acharam que eram costelas de uma tartaruga marinha gigante extinta.',
+        },
+        parasaurolophus: {
+          nome: 'Parasaurolophus',
+          cientifico: 'Parasaurolophus Walkeri',
+          clado: 'Hadrosauridae',
+          local: 'América do Norte (Estados Unidos e Canadá)',
+          impactante:
+            'Sua enorme crista tubular na cabeça funcionava para produzir sons e chamados poderosos.',
+          bio: 'O Parasaurolophus foi um dinossauro herbívoro popularmente conhecido como "dinossauro bico de pato" devido ao formato achatado de sua boca. Ele viveu durante o período Cretáceo Superior e podia andar tanto em duas pernas quanto em quatro apoios. A característica que o tornou famoso é a sua longa crista óssea curvada para trás que saía diretamente do topo do seu crânio.',
+          curiosidades:
+            '• Caixa de Som Natural: Sua crista era oca e conectada às narinas. Funcionava como um instrumento de sopro natural para emitir sons graves e alertas sonoros para o bando.<br><br>• Reconhecimento Visual: Além da comunicação, a crista possuía formatos e tamanhos diferentes entre machos e fêmeas, auxiliando no reconhecimento visual dentro do grupo.<br><br>• Sem Defesas Físicas: Não possuía chifres ou garras afiadas. Sua única salvação contra predadores era a audição atenta e a fuga em manadas organizadas.',
+        },
+        argentinosaurus: {
+          nome: 'Argentinosaurus',
+          cientifico: 'Argentinosaurus Huinculensis',
+          clado: 'Titanosauria',
+          local: 'Argentina (Patagônia)',
+          impactante:
+            'É considerado um dos maiores e mais pesados animais terrestres que já existiram na Terra.',
+          bio: 'O Argentinosaurus foi um titanossauro herbívoro colossal que viveu há cerca de 95 milhões de anos na América do Sul. Estimar o seu tamanho exato é um desafio para os cientistas, mas os cálculos paleontológicos apontam que ele media entre 35 e 40 metros de comprimento total e pesava dezenas de toneladas. Cada uma de suas vértebras fósseis encontradas passava tranquilamente de 1,5 metro de altura.',
+          curiosidades:
+            '• Vértebras Gigantes: Uma única vértebra dorsal desse animal era tão pesada que exigia vários pesquisadores trabalhando juntos apenas para movê-la de lugar.<br><br>• Passos de Terremoto: Devido ao peso colossal, ele se deslocava de forma lenta pelos vales da Patagônia, gerando vibrações no solo a cada passo dado.<br><br>• Nascimento Minúsculo: Apesar de se tornarem titãs adultos, os filhotes nasciam de ovos do tamanho aproximado de uma bola de futebol, crescendo de forma acelerada.',
+        },
+        pterodactilo: {
+          nome: 'Pterodáctilo',
+          cientifico: 'Pterodactylus Antiquus',
+          clado: 'Pterosauria',
+          local: 'Europa (Alemanha, França e Inglaterra)',
+          impactante:
+            'Foi um dos primeiros répteis voadores descobertos e estudados na história da ciência.',
+          bio: 'O Pterodáctilo foi um pequeno réptil voador pré-histórico que viveu durante o período Jurássico Superior, há cerca de 150 milhões de anos. É crucial ressaltar que ele não era um dinossauro verdadeiro, mas sim um pterossauro que evoluiu na mesma época. Ele possuía asas membranosas formadas por uma longa pele esticada a partir do seu quarto dedo da mão, além de um corpo leve com ossos ocos.',
+          curiosidades:
+            '• Não era Dinossauro: Embora o público costume confundi-los, os pterossauros pertencem a uma ramificação separada dos répteis voadores do passado.<br><br>• Caçador Costeiro: Ele passava seus dias sobrevoando os mares e lagos antigos da Europa, usando seu longo bico dotado de dentes finos para pescar e caçar pequenos animais.<br><br>• Tamanho Real: Diferente dos pterossauros gigantes do Cretáceo, o Pterodáctilo original era pequeno, tendo uma envergadura de asas de pouco mais de 1 metro.',
+        },
+        brachiosaurus: {
+          nome: 'Brachiosaurus',
+          cientifico: 'Brachiosaurus Altithorax',
+          clado: 'Sauropoda',
+          local: 'América do Norte (Estados Unidos)',
+          impactante:
+            'Seu pescoço gigantesco permitia que ele alcançasse a copa de árvores extremamente elevadas.',
+          bio: 'O Brachiosaurus foi um impressionante saurópode herbívoro que viveu no final do período Jurássico. Ele media cerca de 25 metros de comprimento e exibia uma estrutura física única: ao contrário dos outros pescoçudos, suas pernas dianteiras eram significativamente maiores e mais longas que as traseiras. Isso dava ao seu corpo uma postura inclinada para cima, lembrando a anatomia de uma girafa moderna.',
+          curiosidades:
+            '• Postura Elevada: Suas pernas dianteiras maiores permitiam que seu pescoço subisse quase verticalmente, dando acesso exclusivo às folhas mais altas das árvores do Jurássico.<br><br>• Coração Potente: Para bombear sangue até o topo de sua cabeça (a mais de 12 metros de altura), seu coração precisava ser gigante e exercer uma pressão sanguínea absurda.<br><br>• Narinas no Topo: Suas cavidades nasais ficavam localizadas bem no alto do crânio, logo acima dos olhos, uma característica marcante de seu esqueleto.',
+        },
+        dilophosaurus: {
+          nome: 'Dilophosaurus',
+          cientifico: 'Dilophosaurus Wetherilli',
+          clado: 'Theropoda',
+          local: 'América do Norte (Estados Unidos)',
+          impactante:
+            'Possuía duas cristas ósseas paralelas no topo da cabeça, usadas para exibição visual.',
+          bio: 'O Dilophosaurus foi um dinossauro carnívoro de porte médio que viveu no início do período Jurássico, há aproximadamente 193 milhões de anos. Ele media cerca de 6 metros de comprimento e pesava em torno de 400 quilos. Ele era um caçador veloz e esguio, equipado com braços longos e mandíbulas estreitas projetadas para capturar animais de pequeno e médio porte em seu ecossistema.',
+          curiosidades:
+            '• Sem Veneno ou Gola: Ao contrário do que foi mostrado no filme Jurassic Park, o Dilophosaurus real não cuspia veneno e não tinha aquela gola retrátil no pescoço.<br><br>• Cristas de Exibição: Suas famosas cristas duplas na cabeça eram feitas de ossos extremamente finos e frágeis, servindo para rituais de acasalamento e status social.<br><br>• Mandíbula Frágil: Possuía uma dobra característica em seus dentes frontais que tornava sua mordida fraca, indicando que ele usava mais as garras das mãos para subjugar presas.',
+        },
+        troodon: {
+          nome: 'Troodon',
+          cientifico: 'Troodon Formosus',
+          clado: 'Troodontidae',
+          local: 'América do Norte (Estados Unidos e Canadá)',
+          impactante:
+            'É amplamente considerado um dos dinossauros mais inteligentes devido ao tamanho de seu cérebro.',
+          bio: 'O Troodon foi um pequeno dinossauro carnívoro terópode que viveu no final do período Cretáceo. Medindo cerca de 2 metros de comprimento e pesando em torno de 50 quilos, ele possuía uma anatomia corporal extremamente refinada e pernas longas feitas para corrida. O grande diferencial deste animal era o tamanho do seu cérebro em proporção ao seu corpo, que era o maior entre todos os dinossauros conhecidos.',
+          curiosidades:
+            '• Cérebro Desenvolvido: Seu grande volume cerebral sugere que ele possuía uma inteligência avançada, comportamento social complexo e estratégias de caça eficientes.<br><br>• Olhos de Coruja: Seus olhos eram imensos e voltados para a frente, conferindo uma excelente visão binocular e uma visão noturna perfeita para caçar no escuro.<br><br>• Garra de Raptor: Assim como os dromeossaurídeos, ele possuía uma pequena garra retrátil em forma de foice nos pés, que ajudava a segurar presas menores.',
+        },
+        aquilops: {
+          nome: 'Aquilops',
+          cientifico: 'Aquilops Americanus',
+          clado: 'Ceratopsia',
+          local: 'América do Norte (Montana, Estados Unidos)',
+          impactante:
+            'Foi um pequeno dinossauro herbívoro, ancestral primitivo dos gigantescos dinossauros de chifre.',
+          bio: 'O Aquilops foi um minúsculo dinossauro herbívoro que viveu no início do período Cretáceo, há cerca de 108 milhões de anos. Diferente dos seus parentes massivos que surgiriam milhões de anos depois, o Aquilops era incrivelmente pequeno, tendo o tamanho aproximado de um coelho grande (cerca de 60 centímetros) e pesando apenas 1,5 quilo. Ele andava sobre duas pernas e se alimentava de folhas macias.',
+          curiosidades:
+            '• Rosto de Águia: Seu nome significa literalmente "rosto de águia" devido ao formato curvado e pontiagudo do bico em seu crânio, usado para cortar brotos vegetais.<br><br>• Ancestral dos Gigantes: Ele é considerado um dos ceratopsianos mais primitivos da América do Norte, revelando como o grupo do Triceratops começou pequeno antes de virar gigante.<br><br>• Sem Chifres: Por ser um ancestral muito antigo, ele ainda não possuía nenhum dos grandes chifres ou escudos ósseos que tornaram seus descendentes famosos.',
+        },
+        dolores: {
+          nome: 'Operação Dolores (Easter Egg)',
+          cientifico: 'Aquilops Americanus',
+          clado: 'Ceratopsia',
+          local: 'Arquivos Secretos da InGen',
+          impactante:
+            '🚨 ALERTA DE SISTEMA: Você descobriu a designação secreta de "Jurassic World: Renascimento"!',
+          bio: 'O termo "Dolores" foi o codinome de produção ultra-confidencial utilizado pelos estúdios para o desenvolvimento do filme "Jurassic World: Renascimento" (Rebirth). Na trama do filme, a história se passa anos após os eventos de Dominion, onde a ecologia do planeta se tornou hostil para os dinossauros, isolando as espécies sobreviventes em ambientes tropicais restritos. Ao pesquisar esse nome secreto no sistema, o banco de dados faz uma conexão direta com o Aquilops Americanus, um dos pequenos ancestrais que ajuda a explicar a árvore genealógica dos dinossauros que a humanidade tentou recriar.',
+          curiosidades:
+            '• Segredo de Bastidores: Usar codinomes como "Dolores" impede que roteiros vazem na internet antes do lançamento oficial do filme.<br><br>• O Verdadeiro Animal: No mundo real, o Aquilops era minúsculo (tamanho de um coelho), provando que nem tudo na franquia precisa ser um monstro gigante.<br><br>• Redirecionamento: Esse comando foi inserido no site como um bônus especial para os fãs que acompanham as notícias de produção dos filmes.',
+        },
+        blue: {
+          nome: 'Velociraptor Blue (Easter Egg)',
+          cientifico: 'Velociraptor InGen (Variante)',
+          clado: 'Dromaeosauridae',
+          local: 'Isla Nublar (Projeto IBRIS)',
+          impactante:
+            '🧬 ARQUIVO CONFIDENCIAL: Aprovado acesso ao prontuário da Velociraptor mais inteligente da história!',
+          bio: 'Blue é a integrante mais velha, líder e única sobrevivente do esquadrão de Raptors criado pela InGen para o Projeto IBRIS (Integrated Behavioral Raptor Intelligence Study), liderado por Owen Grady. Ela foi criada usando DNA de lagarto-monitor-africano (*Varanus albigularis*), o que deu à sua pele uma icônica listra azul brilhante ao longo do corpo. Blue demonstrou uma capacidade cognitiva assustadora, sendo capaz de compreender comandos complexos, demonstrar empatia e até se rebelar contra o terrível Indominus Rex para proteger seu treinador.',
+          curiosidades:
+            '• DNA Modificado: A listra azul em seu corpo é resultado direto dos genes de lagarto-monitor usados para preencher as lacunas do seu código genético.<br><br>• Mãe por Partenogênese: No filme *Jurassic World: Domínio*, descobrimos que Blue conseguiu ter uma filhote (Beta) sozinha, sem um parceiro, graças ao seu DNA modificado.<br><br>• A Alfa Reais: Embora Owen Grady fosse o treinador principal, Blue sempre manteve o controle do esquadrão, exigindo respeito de suas irmãs.',
+        },
+        delta: {
+          nome: 'Velociraptor Delta (Easter Egg)',
+          cientifico: 'Velociraptor InGen (Variante)',
+          clado: 'Dromaeosauridae',
+          local: 'Isla Nublar (Projeto IBRIS)',
+          impactante:
+            '🟢 STATUS: Espécime Delta localizado. Segunda em comando no esquadrão IBRIS.',
+          bio: 'Delta foi a segunda Velociraptor a ser criada para o esquadrão de testes de Jurassic World. No seu processo de clonagem, os cientistas liderados pelo Dr. Henry Wu utilizaram uma quantidade maior de DNA de aves (especificamente de falcões e outras aves de rapina). Isso fez com que seus movimentos e expressões fossem assustadoramente parecidos com os de um pássaro caçador moderno. Ela era extremamente focada e usava sua velocidade para cercar as presas enquanto Blue atacava de frente.',
+          curiosidades:
+            '• Olhar de Pássaro: Seus olhos possuíam pupilas ligeiramente mais arredondadas e ela mexia a cabeça em espasmos rápidos, exatamente como as aves de rapina modernas.<br><br>• Ataque Feroz: No filme de 2015, Delta foi a responsável por eliminar o antagonista Vic Hoskins dentro do laboratório de embriões.<br><br>• Destino Heroico: Ela lutou bravamente contra o Indominus Rex ao lado de Blue, mas acabou sendo arremessada contra as churrasqueiras do parque.',
+        },
+        echo: {
+          nome: 'Velociraptor Echo (Easter Egg)',
+          cientifico: 'Velociraptor InGen (Variante)',
+          clado: 'Dromaeosauridae',
+          local: 'Isla Nublar (Projeto IBRIS)',
+          impactante:
+            '🟠 STATUS: Espécime Echo localizado. Registro de comportamento imprevisível.',
+          bio: 'Echo era a integrante mais rebelde e tática do grupo de raptores de Owen Grady. Conhecida na juventude por sua agressividade, ela tentou desafiar Blue pelo trono de Alfa do esquadrão. O duelo foi brutal e resultou na derrota de Echo, que ganhou uma grande cicatriz permanente no lado esquerdo do seu focinho e uma mandíbula levemente desalinhada. Após o combate, ela aceitou o comando de Blue e passou a atuar como a flanqueadora oficial do grupo durante as missões.',
+          curiosidades:
+            '• A Cicatriz de Batalha: Sua marca no rosto ganhou o apelido de "Sorriso" entre os funcionários da InGen devido ao formato rasgado na pele.<br><br>• Ataque Coordenado: Echo era especialista em emboscadas, esperando o momento exato em que a presa tentava fugir das garras de Charlie e Delta.<br><br>• Lealdade Final: Mesmo sendo rebelde, quando Blue decidiu defender Owen Grady contra o Indominus Rex, Echo não hesitou em atacar o monstro híbrido.',
+        },
+        charlie: {
+          nome: 'Velociraptor Charlie (Easter Egg)',
+          cientifico: 'Velociraptor InGen (Variante)',
+          clado: 'Dromaeosauridae',
+          local: 'Isla Nublar (Projeto IBRIS)',
+          impactante:
+            '🟡 STATUS: Espécime Charlie localizado. Caçula do esquadrão de Raptors.',
+          bio: 'Charlie era a integrante mais jovem e o "bebê" do esquadrão treinado por Owen Grady. Devido à sua criação tardia, ela tinha uma fixação extrema por Blue, seguindo a líder em absolutamente todos os cantos e copiando seus hábitos de caça. Seu DNA foi complementado com genes de Iguana-verde, o que lhe deu um tom de pele esverdeado com listras pretas verticais muito escuras, ideal para camuflagem nas densas florestas tropicais da Isla Nublar.',
+          curiosidades:
+            '• Instinto Jovem: Por ser a mais nova, Charlie era altamente imprevisível e atacava por puro instinto, muitas vezes precisando que Blue a contivesse durante os treinos.<br><br>• Camuflagem Perfeita: Suas cores baseadas na Iguana-verde permitiam que ela ficasse completamente invisível no meio das samambaias gigantes do parque.<br><br>• Primeira Perda: Infelizmente, Charlie foi a primeira do esquadrão a morrer durante a caçada na floresta, atingida por um míssil lançado pelos mercenários da InGen.',
+        },
+        bolota: {
+          nome: 'Anquilossauro "Bolota" (Easter Egg)',
+          cientifico: 'Ankylosaurus Magniventris (Mutação IBRIS)',
+          clado: 'Ankylosauria',
+          local: 'Isla Nublar (Acampamento Jurássico / Teoria do Caos)',
+          impactante:
+            '🦎 AMIZADE INCRÍVEL: Você encontrou o arquivo da Anquilossauro mais fofa e leal de Nova Jersey!',
+          bio: 'Bolota (Bumpy) é uma fêmea de Anquilossauro que chocou prematuramente no laboratório do Dr. Henry Wu na Isla Nublar, sendo encontrada pelo campista Ben Pincus. Devido ao nascimento precoce, ela desenvolveu uma assimetria genética única: seu chifre esquerdo é visivelmente maior que o direito. Bolota criou um vínculo emocional indestrutível com Ben, agindo mais como um animal de estimação protetor do que como um dinossauro selvagem. Ela sobreviveu sozinha no parque abandonado por anos até se reencontrar com o grupo e, mais tarde, continuar sua jornada na série Teoria do Caos.',
+          curiosidades:
+            '• Crescimento Acelerado: Por conta das modificações genéticas da InGen, Bolota cresceu de um pequeno filhote para uma adulta maciça em questão de meses enquanto os jovens estavam presos na ilha.<br><br>• Amante de Sobremesa: Sua comida favorita absoluta são as vagens de alfarroba, que Ben usava para acalmá-la e domesticá-la.<br><br>• Defensora Implacável: Apesar de sua natureza dócil com os amigos, ela já enfrentou predadores terríveis para salvar Ben, incluindo o Toro (o Carnotaurus) e os terríveis Baryonyx.',
+        },
+        ultimasaurus: {
+          nome: 'Ultimasaurus - O Híbrido Supremo (Easter Egg)',
+          cientifico: 'Ultimasaurus Chaos (Projeto Cancelado)',
+          clado: 'Híbrido Genético (Chaos Effect)',
+          local: 'Laboratórios Secretos da InGen / Jogos Mobile',
+          impactante:
+            '⚠️ ALERTA MÁXIMO DE PERIGO: O Híbrido mais perigoso e instável da história quebrou a contenção!',
+          bio: 'O Ultimasaurus é um dinossauro híbrido lendário criado nos laboratórios secretos da InGen misturando o DNA do T-Rex, Triceratops, Velociraptor, Ankylosaurus e Stegosaurus. Concebido originalmente na linha de brinquedos dos anos 90 "Chaos Effect" e popularizado em jogos como Jurassic World: The Game, ele foi projetado para ser a arma biológica definitiva: a inteligência e agilidade do Raptor, a força e mordida do T-Rex, os chifres do Triceratops, as placas do Stegosaurus e a armadura impenetrável do Ankylosaurus. Por ser extremamente agressivo e instável, o projeto foi arquivado antes de aparecer nos cinemas.',
+          curiosidades:
+            '• A Mistura Perfeita: Seu corpo é uma colagem de pesadelos: ele tem a postura bípede de um T-Rex, a gola e os três chifres do Triceratops, garras de Velociraptor nas mãos, placas nas costas de Stegosaurus e uma cauda de Ankylosaurus.<br><br>• Lenda dos Videogames: Tornou-se um dos dinossauros mais difíceis e cobiçados de se desbloquear nos jogos mobile da franquia devido ao seu poder de ataque esmagador.<br><br>• Instabilidade Mental: De acordo com os relatórios fictícios da InGen, o Ultimasaurus era tão violento que tentava atacar as próprias paredes da sua jaula de contenção e até o seu próprio reflexo.',
+        },
+      };
+      function pesquisaRapida(termoDino) {
+        // Preenche o campo de input com o dinossauro clicado
+        document.getElementById('dinoInput').value = termoDino;
+        // Executa a busca automaticamente
+        buscarDino();
+      }
+
+      function buscarDino() {
+        const valor = document
+          .getElementById('dinoInput')
+          .value.toLowerCase()
+          .replace(/\s/g, '');
+        const resultado = document.getElementById('resultado');
+
+        if (dinos[valor]) {
+          const dino = dinos[valor];
+          resultado.style.display = 'block';
+          resultado.innerHTML = `
+                    <h2>${dino.nome}</h2>
+                    <p><strong>Nome Científico:</strong> ${dino.cientifico}</p>
+                    <p><strong>Clado:</strong> ${dino.clado}</p>
+                    <p><strong>Local Encontrado:</strong> ${dino.local}</p>
+                    <div class="highlight">🔥 ${dino.impactante}</div>
+                    <h2>Biografia Completa</h2>
+                    <p>${dino.bio}</p>
+                    <h2>Curiosidades Impressionantes</h2>
+                    <p>${dino.curiosidades}</p>
+                `;
+        } else {
+          resultado.style.display = 'block';
+          resultado.innerHTML = `
+                    <h2>Dinossauro não encontrado</h2>
+                    <p>Tente pesquisar: trex, velociraptor, spinosaurus ou irritator.</p>
+                `;
+        }
+
+        resultado.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // --- SCRIPT DO QUIZ ---
+      const perguntasQuiz = [
+        {
+          pergunta:
+            'Qual dinossauro possui o registro de uma das mordidas mais fortes do reino animal?',
+          opcoes: [
+            'Spinosaurus',
+            'Tiranossauro Rex',
+            'Velociraptor',
+            'Triceratops',
+          ],
+          correta: 1,
+        },
+        {
+          pergunta:
+            "Em qual estado brasileiro o dinossauro 'Irritator' foi originalmente descoberto?",
+          opcoes: ['Minas Gerais', 'São Paulo', 'Ceará', 'Rio Grande do Sul'],
+          correta: 2,
+        },
+        {
+          pergunta:
+            'De qual grupo de dinossauros as aves modernas descendem diretamente?',
+          opcoes: ['Saurópodes', 'Terópodes', 'Ceratopsianos', 'Pterossauros'],
+          correta: 1,
+        },
+        {
+          pergunta:
+            'Qual era a principal utilidade da enorme vela dorsal do Spinosaurus?',
+          opcoes: [
+            'Natação rápida',
+            'Voar baixinho',
+            'Exibição visual ou regulação térmica',
+            'Ataque a predadores',
+          ],
+          correta: 2,
+        },
+        {
+          pergunta:
+            'Há quantos milhões de anos ocorreu a grande extinção dos dinossauros?',
+          opcoes: [
+            'Há 66 milhões de anos',
+            'Há 150 milhões de anos',
+            'Há 225 milhões de anos',
+            'Há 10 milhões de anos',
+          ],
+          correta: 0,
+        },
+        {
+          pergunta:
+            'Qual dinossauro herbívoro da lista é famoso por possuir um enorme escudo ósseo e três chifres no rosto?',
+          opcoes: [
+            'Ankylosaurus',
+            'Stegosaurus',
+            'Triceratops',
+            'Brachiosaurus',
+          ],
+          correta: 2,
+        },
+        {
+          pergunta:
+            'O Carnotaurus foi um predador muito veloz que habitou qual região geográfica?',
+          opcoes: [
+            'Mongólia',
+            'Argentina',
+            'América do Norte',
+            'Norte da África',
+          ],
+          correta: 1,
+        },
+        {
+          pergunta:
+            'Qual dinossauro brasileiro viveu durante o Triássico e é considerado um dos mais antigos do mundo?',
+          opcoes: [
+            'Irritator',
+            'Uberabatitan',
+            'Staurikosaurus',
+            'Giganotosaurus',
+          ],
+          correta: 2,
+        },
+        {
+          pergunta:
+            'O Spinosaurus aegyptiacus pertencia a qual clado específico?',
+          opcoes: [
+            'Spinosauridae',
+            'Abelisauridae',
+            'Ceratopsia',
+            'Dromaeosauridae',
+          ],
+          correta: 0,
+        },
+        {
+          pergunta:
+            'Qual dinossauro herbívoro possuía uma cauda que terminava em um enorme martelo ósseo para defesa?',
+          opcoes: [
+            'Stegosaurus',
+            'Parasaurolophus',
+            'Ankylosaurus',
+            'Argentinosaurus',
+          ],
+          correta: 2,
+        },
+        {
+          pergunta:
+            'Sobre o Velociraptor, qual característica biológica real o diferenciava dos filmes de ficção?',
+          opcoes: [
+            'Ele era herbívoro',
+            'Ele possuía penas cobrindo o corpo',
+            'Ele era maior que o T-Rex',
+            'Ele não tinha cauda',
+          ],
+          correta: 1,
+        },
+        {
+          pergunta:
+            "Qual o motivo do nome do dinossauro brasileiro 'Irritator challengeri'?",
+          opcoes: [
+            'Clima severo na escavação',
+            'Descobriram que o fóssil foi adulterado ilegalmente antes',
+            'Ele mordia outros dinossauros só para irritar',
+            'Ele emitia um som muito agudo',
+          ],
+          correta: 1,
+        },
+        {
+          pergunta:
+            'O Giganotosaurus carolinii dominou ecossistemas pré-históricos em qual local?',
+          opcoes: [
+            'Patagônia, na Argentina',
+            'Deserto do Saara',
+            'Florestas do Canadá',
+            'Chapada do Araripe, no Brasil',
+          ],
+          correta: 0,
+        },
+        {
+          pergunta:
+            'Qual dinossauro da Mongólia possuía penas e garras de mais de 1 metro, mas era herbívoro?',
+          opcoes: ['Troodon', 'Therizinosaurus', 'Velociraptor', 'Carnotaurus'],
+          correta: 1,
+        },
+        {
+          pergunta:
+            'Qual era a provável função biológica da crista tubular na cabeça do Parasaurolophus?',
+          opcoes: [
+            'Injetar veneno nas presas',
+            'Comunicação sonora e reconhecimento',
+            'Perfurar inimigos',
+            'Armazenar água da chuva',
+          ],
+          correta: 1,
+        },
+        {
+          pergunta:
+            'O Brachiosaurus altithorax apresentava qual característica física incomum em seus membros?',
+          opcoes: [
+            'As pernas dianteiras eram maiores que as traseiras',
+            'Andava apenas em duas pernas',
+            'Não tinha pescoço comprido',
+            'Tinha o corpo coberto por carapaça',
+          ],
+          correta: 0,
+        },
+        {
+          pergunta:
+            'Pertencente ao clado Troodontidae, o pequeno Troodon destacava-se devido a qual aspecto?',
+          opcoes: [
+            'Seu cérebro grande sugerindo alta inteligência',
+            'Sua dieta exclusiva de peixes gigantes',
+            'Media mais de 15 metros',
+            'Tinha asas e voava',
+          ],
+          correta: 0,
+        },
+        {
+          pergunta:
+            'Qual pequeno herbívoro norte-americano possuía bico de águia e era ancestral dos dinossauros de chifre?',
+          opcoes: ['Triceratops', 'Aquilops', 'Stegosaurus', 'Parasaurolophus'],
+          correta: 1,
+        },
+        {
+          pergunta:
+            'Com base nas descobertas feitas em Minas Gerais, o Uberabatitan pertencia a qual clado?',
+          opcoes: [
+            'Theropoda',
+            'Titanosauria',
+            'Ankylosauria',
+            'Herrerasauridae',
+          ],
+          correta: 1,
+        },
+        {
+          pergunta:
+            'O que chamava a atenção dos cientistas na anatomia estrutural do Stegosaurus?',
+          opcoes: [
+            'Tinha dentes afiados de carnívoro',
+            'Seu cérebro era muito pequeno comparado ao corpo',
+            'Tinha três olhos funcionais',
+            'Seu crânio media mais de 4 metros',
+          ],
+          correta: 1,
+        },
+      ];
+
+      let perguntaAtual = 0;
+      let pontuacao = 0;
+
+      function carregarQuiz() {
+        const qPergunta = document.getElementById('quizPergunta');
+        const qOpcoes = document.getElementById('quizOpcoes');
+        const qFeedback = document.getElementById('quizFeedback');
+        const qProximoBtn = document.getElementById('quizProximoBtn');
+
+        qFeedback.innerHTML = '';
+        qProximoBtn.style.display = 'none';
+        qOpcoes.innerHTML = '';
+
+        const dadosPergunta = perguntasQuiz[perguntaAtual];
+        qPergunta.innerText = `${perguntaAtual + 1}. ${dadosPergunta.pergunta}`;
+
+        dadosPergunta.opcoes.forEach((opcao, index) => {
+          const botao = document.createElement('button');
+          botao.innerText = opcao;
+          botao.classList.add('quiz-btn');
+          botao.onclick = () => verificarResposta(index, botao);
+          qOpcoes.appendChild(botao);
+        });
+      }
+
+      function verificarResposta(selecionado, botaoClicado) {
+        const botoes = document.querySelectorAll('.quiz-opcoes .quiz-btn');
+        const corretaIndex = perguntasQuiz[perguntaAtual].correta;
+        const qFeedback = document.getElementById('quizFeedback');
+        const qProximoBtn = document.getElementById('quizProximoBtn');
+
+        // Desativa todos os botões após a escolha
+        botoes.forEach((btn) => (btn.disabled = true));
+
+        if (selecionado === corretaIndex) {
+          botaoClicado.classList.add('correto');
+          qFeedback.innerHTML =
+            "<span style='color: #22c55e;'>Acertou! Resposta correta. 🦖</span>";
+          pontuacao++;
+        } else {
+          botaoClicado.classList.add('errado');
+          botoes[corretaIndex].classList.add('correto'); // Mostra qual era a certa
+          qFeedback.innerHTML =
+            "<span style='color: #ef4444;'>Errou! Mas não desanime. ☄️</span>";
+        }
+
+        qProximoBtn.style.display = 'block';
+      }
+
+      function proximaPergunta() {
+        perguntaAtual++;
+
+        if (perguntaAtual < perguntasQuiz.length) {
+          carregarQuiz();
+        } else {
+          mostrarResultadoQuiz();
+        }
+      }
+
+      function mostrarResultadoQuiz() {
+        const quizJanela = document.getElementById('quizJanela');
+        let mensagemExclusiva = '';
+
+        // Sistema dinâmico de pontuação (Muda conforme o desempenho)
+        if (pontuacao === perguntasQuiz.length) {
+          mensagemExclusiva =
+            "<span style='color: #bef264;'>🏆 Perfeito! Você é um Paleontólogo Lendário! Conhece cada detalhe dos gigantes da Terra!</span>";
+        } else if (pontuacao >= perguntasQuiz.length * 0.7) {
+          mensagemExclusiva =
+            "<span style='color: #22c55e;'>🦖 Excelente trabalho! Seus conhecimentos sobre dinossauros são dignos de respeito!</span>";
+        } else if (pontuacao >= perguntasQuiz.length * 0.4) {
+          mensagemExclusiva =
+            "<span style='color: #eab308;'>🌋 Bom esforço! Você sobreviveu ao período Cretáceo, mas ainda há muito o que explorar!</span>";
+        } else {
+          mensagemExclusiva =
+            "<span style='color: #ef4444;'>☄️ Oh não, o asteroide te pegou! Que tal pesquisar mais dinossauros no site e tentar de novo?</span>";
+        }
+
+        quizJanela.innerHTML = `
+          <div class="quiz-pergunta" style="text-align: center;">Quiz Concluído!</div>
+          <div style="font-size: 18px; text-align: center; margin-bottom: 20px; padding: 10px; line-height: 1.6;">
+            ${mensagemExclusiva}
+          </div>
+          <p style="font-size: 20px; text-align: center; margin-bottom: 25px; color: #d1d5db;">
+            Você acertou <strong>${pontuacao}</strong> de <strong>${perguntasQuiz.length}</strong> perguntas.
+          </p>
+          <button class="quiz-proximo-btn" style="display: block;" onclick="reiniciarQuiz()">Jogar Novamente</button>
+        `;
+      }
+
+      function reiniciarQuiz() {
+        perguntaAtual = 0;
+        pontuacao = 0;
+        const quizJanela = document.getElementById('quizJanela');
+
+        // Restaura a estrutura padrão da janela do quiz
+        quizJanela.innerHTML = `
+                <div class="quiz-pergunta" id="quizPergunta">Carregando pergunta...</div>
+                <div class="quiz-opcoes" id="quizOpcoes"></div>
+                <div class="quiz-feedback" id="quizFeedback"></div>
+                <button class="quiz-proximo-btn" id="quizProximoBtn" onclick="proximaPergunta()">Próxima Pergunta</button>
+            `;
+        carregarQuiz();
+      }
+
+      // Inicia o quiz automaticamente assim que a página carrega
+      window.onload = () => {
+        carregarQuiz();
+      };
+    </script>
+  </body>
+</html>
